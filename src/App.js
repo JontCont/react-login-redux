@@ -1,12 +1,27 @@
 import logo from './logo.svg';
 import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from './store/counter/counterSlice'
+import React, { useState } from 'react';
+import { loginSuccess } from './store/auth/authSlice';
 import './App.css';
 
 function App() {
-  const count = useSelector((state) => state.counter.value);
-  const name = useSelector((state) => state.counter.name);
+  //initial value 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    const user = { id: 1, username: 'exampleuser' };
+    dispatch(loginSuccess(user));
+    // console.log({
+    //   username : username,
+    //   password : password,
+    //   setInfo : {setUsername , setPassword}
+    // });
+    // return false;
+  }
 
   return (
     <div className="d-flex flex-center h-100vh">
@@ -16,21 +31,22 @@ function App() {
         <p>作品參考請至 Github 查詢</p>
       </div>
       <div className='card d-inline-block'>
-        <form className=''>
-          <div>
-            <button type='button' onClick={() => dispatch(increment())}>Increment</button>
-            <span>{name}</span>
-            <span>{count}</span>
-            <button type='button' onClick={() => dispatch(decrement())}>Decrement</button>
-          </div>
-
+        <form className='' onSubmit={handleSubmit}> 
           <div>
             <label>User</label>
-            <input type='text' placeholder='User'></input>
+            <input type='text' 
+              placeholder='User'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}>
+          </input>
           </div>
           <div>
             <label>pass</label>
-            <input type='password' placeholder='password'></input>
+            <input type='password' 
+              placeholder='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              ></input>
           </div>
           <div>
             <button type='submit'>Sign in</button>
